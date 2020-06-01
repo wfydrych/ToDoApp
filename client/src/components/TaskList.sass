@@ -1,0 +1,60 @@
+.taskListToDo
+    margin-bottom: 5px
+    display: flex
+    flex-direction: row
+
+.taskListDone
+    margin-bottom: 5px
+    display: flex
+    flex-direction: row
+    color: #676767
+    text-decoration: line-through
+
+.taskName:hover
+    cursor: pointer
+    filter: blur(1px)
+
+.taskDate
+    color: #676767
+    text-align: right
+    flex-grow: 1
+    
+@media (min-width: 1024px)
+    
+    .taskListPanel
+        box-sizing: border-box
+        position: absolute
+        top: 0
+        right: 0
+        width: 55vw
+        height: 100vh
+        background-color: #fff
+        padding: 10%
+        color: black
+
+    .taskListHeader
+        display: block
+        font-size: 1.5em
+        margin-bottom: 20px
+
+    .noTasks
+        width: 100%
+
+@media (max-width: 1023px)
+    .noTasks
+        width: 50%
+
+    .taskListHeader
+        display: inline-block
+        box-sizing: border-box
+        width: 100vw
+        height: auto
+        top: 0
+        background-color: #4D57FF
+        padding: 20px
+        color: white
+        border-radius: 0px 0px 20px 20px
+
+    .tasksListMobile
+        padding: 20px
+        font-weight: 600
