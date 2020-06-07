@@ -5,6 +5,14 @@
     font-weight: 600
     margin-top: 20px
 
+=mobileErr
+    box-sizing: border-box
+    display: block
+    width: 80%
+    margin-left: 10%
+    padding: 10px 0px
+    color: red
+
 =circle
     box-sizing: border-box
     display: inline-block
@@ -108,10 +116,10 @@
     input::placeholder
         color: rgba(255,255,255,0.6)
 
-    .login input, .register input, .login-first input
+    .login input, .register input, .login-first input, .forgot-pass input
         color: black
 
-    .login input::placeholder, .register input::placeholder, .login-first input::placeholder
+    .login input::placeholder, .register input::placeholder, .login-first input::placeholder, .forgot-pass input::placeholder
         color: rgb(50,50,50)
 
     input:focus
@@ -185,6 +193,10 @@
         display: none
         +login-div
 
+    .forgot-pass
+        display: none
+        +login-div
+
     .login-first span:nth-child(2)
         margin-bottom: 40px
 
@@ -193,16 +205,7 @@
         font-size: 0.8em
         padding: 5px
 
-    .logErr
-        +err
-
-    .regErr
-        +err
-
-    .firstLogErr
-        +err
-
-    .addErr
+    .logErr, .regErr, .firstLogErr, .addErr, .forgotErr
         +err
 
 @media (max-width: 1023px)
@@ -417,44 +420,46 @@
         border-radius: 15px
         cursor: pointer
 
-    .login input, .register input, .login-first input
+    .login input, .register input, .login-first input, .forgot-pass input
         width: 80%
         margin-top: 20px
 
-    .login input:focus, .register input:focus, .login-first input:focus
+    .login input:focus, .register input:focus, .login-first input:focus, .forgot-pass input:focus
         outline: none
         border-bottom: 1px solid #FFFFFF
         color: white
 
-    .login input::placeholder, .register input::placeholder, .login-first input::placeholder
+    .login input::placeholder, .register input::placeholder, .login-first input::placeholder, .forgot-pass input:placeholder
         color: rgba(255,255,255,0.6)
 
     .login-create
         box-sizing: border-box
+        position: relative
         display: block
         width: 80%
         margin-left: 10%
         padding-top: 20px
         color: white
+        z-index: 12
 
     .login-create strong
         cursor: pointer
+        text-decoration: underline
 
-    .logErr
-        box-sizing: border-box
-        display: block
-        width: 80%
-        margin-left: 10%
-        padding: 10px 0px
-        color: red
+    .forgot-pass
+        display: none
+        position: absolute
+        top: 0
+        left: 0
+        height: 100%
+        width: 100%
+        padding-top: 20px
+        z-index: 6
+        background: linear-gradient(180deg, #4D57FF 0%, rgb(77, 87, 255) 46.88%, rgb(77, 87, 255) 100%)
+        overflow: hidden
 
-    .regErr
-        box-sizing: border-box
-        display: block
-        width: 80%
-        margin-left: 10%
-        padding: 10px 0px
-        color: red
+    .logErr, .regErr, .forgotErr
+        +mobileErr
 
     .register
         display: none

@@ -1,15 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const mongo = require('mongodb')
+const MongoClient = require('mongodb').MongoClient
+const path = require('path')
 
 const app = express()
 const port = process.env.PORT || 5000
-const client = new mongo.MongoClient('mongodb+srv://login:pass@db1-6u6ai.mongodb.net/test?retryWrites=true&w=majority',
-    {
-      useUnifiedTopology: true,
-      poolSize: 2,
-      promiseLibrary: global.Promise
-    })
+const uri = "mongodb+srv://Fachman:HasloTestowe1@db1-6u6ai.mongodb.net/<dbname>?retryWrites=true&w=majority"
+const client = new MongoClient(uri, { useNewUrlParser: true })
 
 let user = ''
 
@@ -19,6 +16,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // app.get('/api/hello', (req, res) => {
 //   res.send({ express: 'Hello From Express' });
 // });
+
+// app.use(express.static(path.join(__dirname, 'build')))
+
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'))
+// })
 
 app.post('/register', (req, res) => {
   client.connect(err => {
@@ -74,11 +77,16 @@ app.post('/login', (req, res) => {
               res.send('Incorrect data!')
             }
             else {
-              res.send({info: 'Logged successfully!', user: user, tasks: data[0].tasks})
+              res.send({info: 'Logged successfully!', user: user, tasks: data[0].tasks, login: data[0].login})
               }
             })
         }
     })
+  })
+
+  app.post('/forgot', (req, res) => {
+    user = req.body.email
+    console.log(user)
   })
 
   app.post('/updatetask', (req, res) => {

@@ -8,6 +8,8 @@ const cookies = new Cookies()
 
 class TaskAdd extends Component {
 
+    
+
     getDate = () => {
         const time = new Date()
         let date = time.getFullYear() + '-'
@@ -29,13 +31,38 @@ class TaskAdd extends Component {
         confPass: '',
     }
 
+    handleBtn = () => {
+        if (cookies.get('login')) return 'Log out'
+        else return 'Log in'
+    }
+
+    updateDatabase = props => {
+        const tasks = props
+        const response = fetch('/updatetask', {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({tasks: tasks, user: cookies.get('user')}),
+        })
+      }
+
     handleLoginBtn = () => {
-        if (document.querySelector('.login').style.display === 'block')
+        if (cookies.get('login')) {
+            cookies.remove('login')
+            cookies.remove('tasks')
+            cookies.remove('user')
+            cookies.remove('start')
+            window.location.reload()
+        }
+
+        else if (document.querySelector('.login').style.display === 'block')
         {
             document.querySelector('.login').style.display = 'none'
             document.querySelector('.register').style.display = 'none'
             document.querySelector('.login-first').style.display = 'none'
             document.querySelector('.startpage-mobile').style.display = 'none'
+            document.querySelector('.forgot-pass').style.display = 'none'
         }
 
         else {
@@ -43,6 +70,7 @@ class TaskAdd extends Component {
             document.querySelector('.register').style.display = 'none'
             document.querySelector('.login-first').style.display = 'none'
             document.querySelector('.startpage-mobile').style.display = 'none'
+            document.querySelector('.forgot-pass').style.display = 'none'
         }
         
     }
@@ -52,6 +80,15 @@ class TaskAdd extends Component {
         document.querySelector('.register').style.display = 'block'
         document.querySelector('.login-first').style.display = 'none'
         document.querySelector('.startpage-mobile').style.display = 'none'
+        document.querySelector('.forgot-pass').style.display = 'none'
+    }
+
+    handleForgotBtn = () => {
+        document.querySelector('.login').style.display = 'none'
+        document.querySelector('.register').style.display = 'none'
+        document.querySelector('.login-first').style.display = 'none'
+        document.querySelector('.startpage-mobile').style.display = 'none'
+        document.querySelector('.forgot-pass').style.display = 'block'
     }
 
     handleTryBtn = () => {
@@ -91,7 +128,7 @@ class TaskAdd extends Component {
 
     handleLoginChange = e => {
         this.setState({
-            login: e.target.login
+            login: e.target.value
         })
     }
 
@@ -137,6 +174,7 @@ class TaskAdd extends Component {
                     if (taskExist === false) {
                         tasks.push(data)
                         cookies.set('tasks', tasks)
+                        this.updateDatabase(tasks)
                         this.setState({
                             name: '',
                             date: this.getDate(),
@@ -186,11 +224,13 @@ class TaskAdd extends Component {
             })
     
             let answer = await response.text()
-            // answer = JSON.parse(answer)
+            answer = JSON.parse(answer)
             errField.innerText = answer.info
+            cookies.set('login', answer.login)
             cookies.set('user', answer.user)
+            
             if (answer.tasks) cookies.set('tasks', answer.tasks)
-            // window.location.reload(false)
+            window.location.reload(false)
         }
     }
 
@@ -231,6 +271,26 @@ class TaskAdd extends Component {
         }
     }   
 
+    handleSendForgot = () => {
+        const err = document.querySelector('.forgotErr')
+        const email = this.state.email
+        if (!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) err.innerText = 'Incorrect email!'
+        else {
+            this.setState({
+                email: ''
+            })
+            err.innetText = 'Password sent!'
+
+            const response = fetch('/forgot', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            })
+        }
+    }
+
     addTaskMobileForm = () => {
         const x = window.matchMedia('(max-width: 1023px)')
         if (x.matches) {
@@ -242,6 +302,17 @@ class TaskAdd extends Component {
 
     componentDidMount() {
         this.handlePriorityChange(this.state.priority)
+        const x = window.matchMedia('(max-width: 1023px)')
+        if (x.matches) {
+            if (cookies.get('start')) document.querySelector('.startpage-mobile').style.display = 'none'
+            else cookies.set('start', true)
+        }
+        else if (cookies.get('start')) document.querySelector('.newTaskForm').style.display = 'block'
+    }
+
+    welcome = () => {
+        if (cookies.get('login')) return 'Hey ' + cookies.get('login') + '!'
+        else return 'Hey!'
     }
     
     render () {
@@ -249,10 +320,10 @@ class TaskAdd extends Component {
         <Fragment>
             <div className='login-bar' onClick={this.handleLoginBtn}>
                 <img className='login-img' src={login} alt='login' />
-                <div className='log'>Log in</div>
+                <div className='log'>{this.handleBtn()}</div>
             </div>
             <div className='taskAddPanel'>
-                <div className='userHeader'>Hey!</div>
+                <div className='userHeader'>{this.welcome()}</div>
                 <span className='newTaskHeader' onClick={this.addTaskMobileForm}>Add new task</span>
                 <div className='newTaskForm'>
                     <input value={this.state.title} onChange={this.handleTitleChange} placeholder='title' type='text' />
@@ -273,6 +344,7 @@ class TaskAdd extends Component {
                     <input className='login-input' value={this.state.pass} onChange={this.handlePassChange} placeholder='password' type='password' />
                     <button className='login-button' onClick={this.handleLogin}>Login</button>
                     <span className='login-create'>Don’t have an account? <br/><strong onClick={this.handleRegisterBtn}>Create Account</strong></span>
+                    <span className='login-create' onClick={this.handleForgotBtn}><strong>Forgot password?</strong><br/></span>
                     <span className='logErr'></span>
                     <span className='login-dot'></span>
                 </div>
@@ -303,6 +375,12 @@ class TaskAdd extends Component {
                     <input className='login-input' value={this.state.pass} onChange={this.handlePassChange} placeholder='password' type='password' />
                     <button className='login-button' onClick={this.handleLogin}>Login</button>
                     <span className='firstLogErr'></span>
+                </div>
+                <div className='forgot-pass'>
+                    <span className='login-title'>Forgot password?</span>
+                    <input className='login-input' value={this.state.email} onChange={this.handleEmailChange} placeholder='email' type='text' />
+                    <button className='login-button' onClick={this.handleSendForgot}>Send</button>
+                    <span className='forgotErr'></span>
                 </div>
             </div>
             <div className='startpage-mobile'>
