@@ -14,10 +14,6 @@ let user = ''
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// app.get('/api/hello', (req, res) => {
-//   res.send({ express: 'Hello From Express' });
-// });
-
 app.use(express.static(path.join(__dirname, 'build')))
 
 app.get('/*', (req, res) => {
@@ -114,10 +110,10 @@ app.post('/login', (req, res) => {
               }
             })
             const message = {
-              from: 'todo@app.com', // Sender address
-              to: user,         // List of recipients
-              subject: 'Your ToDoApp password', // Subject line
-              text: 'Your password is: ' + pass // Plain text body
+              from: 'todo@app.com',
+              to: user,
+              subject: 'Your ToDoApp password',
+              text: 'Your password is: ' + pass 
           }
             transport.sendMail(message, function(err, info) {
               if (err) {
