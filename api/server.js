@@ -2,11 +2,12 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 const path = require('path')
+const nodemailer = require('nodemailer')
 
 const app = express()
 const port = process.env.PORT || 5000
-const uri = "mongodb+srv://Fachman:HasloTestowe1@db1-6u6ai.mongodb.net/<dbname>?retryWrites=true&w=majority"
-const client = new MongoClient(uri, { useNewUrlParser: true })
+const uri = process.env.MONGODB_URI 
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 let user = ''
 
@@ -17,11 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 //   res.send({ express: 'Hello From Express' });
 // });
 
-// app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.join(__dirname, 'build')))
 
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'))
-// })
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
 app.post('/register', (req, res) => {
   client.connect(err => {
@@ -86,7 +87,49 @@ app.post('/login', (req, res) => {
 
   app.post('/forgot', (req, res) => {
     user = req.body.email
-    console.log(user)
+
+    client.connect(err => {
+      if (err) {
+          client.close()
+      } else {
+        const db = client.db('ToDoApp')
+        const usersData = db.collection('UsersData')
+
+        usersData.find({email: user}).toArray((err, data) => {
+          if (err) {
+            client.close()
+          }
+          else if (data.length === 0) {
+            client.close()
+          }
+          else {
+            const pass = data[0].password
+            
+            const transport = nodemailer.createTransport({
+              host: "smtp.mailtrap.io",
+              port: 2525,
+              auth: {
+                user: "0ca3365018a1e6",
+                pass: "e1127133ab163a"
+              }
+            })
+            const message = {
+              from: 'todo@app.com', // Sender address
+              to: user,         // List of recipients
+              subject: 'Your ToDoApp password', // Subject line
+              text: 'Your password is: ' + pass // Plain text body
+          }
+            transport.sendMail(message, function(err, info) {
+              if (err) {
+                console.log(err)
+              } else {
+                console.log(info);
+              }
+            })
+          }
+        })
+      }
+  })
   })
 
   app.post('/updatetask', (req, res) => {

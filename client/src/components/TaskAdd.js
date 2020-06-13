@@ -99,12 +99,16 @@ class TaskAdd extends Component {
         this.setState({
             title: e.target.value
         })
+
+        document.querySelector('.addErr').innerHTML = ''
     }
 
     handleDateChange = e => {
         this.setState({
             date: e.target.value
         })
+
+        document.querySelector('.addErr').innerHTML = ''
     }
 
     handlePriorityChange = props => {
@@ -112,7 +116,7 @@ class TaskAdd extends Component {
         document.querySelector('.priorityCircleBlue').style.backgroundColor = 'rgba(0,0,0,0)'
         document.querySelector('.priorityCircleRed').style.backgroundColor = 'rgba(0,0,0,0)'
         if (props === 1) document.querySelector('.priorityCircleGrey').style.backgroundColor = '#8D8D8D'
-        else if (props === 2) document.querySelector('.priorityCircleBlue').style.backgroundColor = '#4D57FF'
+        else if (props === 2) document.querySelector('.priorityCircleBlue').style.backgroundColor = '#fca503'
         else if (props === 3) document.querySelector('.priorityCircleRed').style.backgroundColor = '#FF5E5A'
 
         this.setState({
@@ -202,16 +206,13 @@ class TaskAdd extends Component {
             errFField.innerText = 'Incorrect email!'
         }
     
-        else if (!pass.match(/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/)) {
+        // else if (!pass.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/)) {
+            else if (!true) {
             errField.innerText = 'Incorrect password'
             errFField.innerText = 'Incorrect password'
         }
     
         else {
-            this.setState({
-                email: '',
-                pass: '',
-        })
             errField.innerText = ''
             errFField.innerText = ''
 
@@ -228,6 +229,11 @@ class TaskAdd extends Component {
             errField.innerText = answer.info
             cookies.set('login', answer.login)
             cookies.set('user', answer.user)
+
+            this.setState({
+                email: '',
+                pass: '',
+            })
             
             if (answer.tasks) cookies.set('tasks', answer.tasks)
             window.location.reload(false)
@@ -243,21 +249,15 @@ class TaskAdd extends Component {
     
         if (email.length < 6) errField.innerText = 'Too short email!'
 
-        else if (login.length < 6) errField.innerText = 'Too short login!'
+        else if (login.length < 3) errField.innerText = 'Too short login!'
 
         else if (pass !== confPass) errField.innerText = 'Passwords are not the same!'
 
         else if (!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) errField.innerText = 'Incorrect email!'
     
-        else if (!pass.match(/^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/)) errField.innerText = 'Incorrect password!'
+        else if (!pass.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/)) errField.innerText = 'Incorrect password!'
     
         else {
-            this.setState({
-                email: '',
-                login: '',
-                pass: '',
-                confPass: '',
-            })
             errField.innetText = ''
             const response = await fetch('/register', {
                 method: 'POST',
@@ -268,6 +268,16 @@ class TaskAdd extends Component {
             })
             const answer = await response.text();
             errField.innerText = answer
+
+            this.setState({
+                email: '',
+                login: '',
+                pass: '',
+                confPass: '',
+            })
+
+            document.querySelector('.register').style.display = 'none'
+            document.querySelector('.login-first').style.display = 'block'
         }
     }   
 
@@ -279,7 +289,7 @@ class TaskAdd extends Component {
             this.setState({
                 email: ''
             })
-            err.innetText = 'Password sent!'
+            err.innerText = 'Password sent!'
 
             const response = fetch('/forgot', {
                 method: 'POST',
@@ -318,9 +328,10 @@ class TaskAdd extends Component {
     render () {
     return (
         <Fragment>
-            <div className='login-bar' onClick={this.handleLoginBtn}>
+            <div className='login-bar'>
                 <img className='login-img' src={login} alt='login' />
-                <div className='log'>{this.handleBtn()}</div>
+                <div className='log' onClick={this.handleRegisterBtn}>Sign up</div>
+                <div className='log' onClick={this.handleLoginBtn}>{this.handleBtn()}</div>
             </div>
             <div className='taskAddPanel'>
                 <div className='userHeader'>{this.welcome()}</div>
@@ -350,7 +361,7 @@ class TaskAdd extends Component {
                 </div>
                 <div className='register'>
                     <span className='login-title'>Join us!</span>
-                    <span className='login-subtitle'>Take control over your tasks!</span>
+                    <span className='login-subtitle'>Take control over your tasks.</span>
                     <input className='login-input' value={this.state.email} onChange={this.handleEmailChange} placeholder='email' type='text' />
                     <input className='login-input' value={this.state.login} onChange={this.handleLoginChange} placeholder='login' type='text' />
                     <input className='login-input' value={this.state.pass} onChange={this.handlePassChange} placeholder='password' type='password' />
@@ -359,17 +370,15 @@ class TaskAdd extends Component {
                     <span className='regErr'></span>
                     <span className='login-dot'></span>
                     <span className='register-hint'>
-                        Password must be at least:<br/>
-                        - 8 characters long<br/>
-                        - 1 lowercase letter<br/>
-                        - 1 capital letter<br/>
+                        Password must have at least:<br/>
+                        - 1 letter<br/>
                         - 1 number<br/>
-                        - 1 special character<br/>
+                        - 6 signs<br/>
                     </span>
                 </div>
                 <div className='login-first'>
                     <span className='login-title'>Nice to meet you!</span>
-                    <span className='login-subtitle'>We are glad that you have become our new user!</span>
+                    <span className='login-subtitle'>We are glad to have a new user :)</span>
                     <span className='login-subtitle'><strong>Log in</strong> and create your first task</span>
                     <input className='login-input' value={this.state.email} onChange={this.handleEmailChange} placeholder='email' type='text' />
                     <input className='login-input' value={this.state.pass} onChange={this.handlePassChange} placeholder='password' type='password' />
@@ -396,7 +405,7 @@ class TaskAdd extends Component {
                     <div className='log'>To<span>Do</span>App</div>
                 </div>
                 <span className='login-title'>Welcome!</span>
-                <span className='login-subtitle'>Take control over your tasks!</span>
+                <span className='login-subtitle'>Take control over your tasks.</span>
                 <button className='login-button' onClick={this.handleTryBtn}>Try without account</button>
                 <button className='login-button' onClick={this.handleLoginBtn}>Log in</button>
                 <button className='login-button' onClick={this.handleRegisterBtn}>Sign in</button>

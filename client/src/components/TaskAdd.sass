@@ -18,9 +18,21 @@
     display: inline-block
     border-radius: 50%
     height: 15px
-    width: 15px
+    min-width: 15px
+    max-width: 15px
     margin-right: 5px
     transform: translateY(1px)
+
+=mobile-log-menu
+    display: none
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+    z-index: 6
+    background: linear-gradient(180deg, #4D57FF 0%, rgb(77, 87, 255) 46.88%, rgb(77, 87, 255) 100%)
+    overflow: hidden
     
 .login-bar
     position: absolute
@@ -31,11 +43,13 @@
     cursor: pointer
 
 .log
-    color: black
     font-size: 15px
     line-height: 25px
     margin-left: 5px
     color: #D3D3D3
+
+.log:nth-of-type(1)
+    margin: 0px 10px
 
 .login-img
     display: block
@@ -59,7 +73,7 @@
 
 .priorityCircleBlue
     +circle
-    border: 2px solid #4D57FF
+    border: 2px solid #fca503
 
 .priorityCircleRed
     +circle
@@ -80,6 +94,9 @@
         background-color: #fff
         border-radius: 20px
         color: black
+
+    .log
+        color: #666666
         
     .taskAddPanel
         box-sizing: border-box
@@ -87,13 +104,14 @@
         top: 0
         left: 0
         width: 45vw
-        height: 100vh
+        min-height: 100vh
         background: linear-gradient(180deg, #4D57FF 0%, rgba(77, 87, 255, 0.903125) 79.17%, rgba(77, 87, 255, 0.8) 100%)
         padding: 10%
         color: white
 
     .userHeader
         font-size: 3em
+        font-weight: 600
 
     .newTaskForm
         margin-top: 5%
@@ -310,6 +328,7 @@
         padding: 20px
         line-height: 5vh
         color: white
+        font-weight: 600
 
     .newTaskForm
         display: none
@@ -326,7 +345,7 @@
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3)
 
     .newTaskHeader
-        position: absolute
+        position: fixed
         box-sizing: border-box
         bottom: 20px
         width: 80vw
@@ -371,15 +390,7 @@
         cursor: pointer
 
     .login
-        display: none
-        position: absolute
-        top: 0
-        left: 0
-        height: 100%
-        width: 100%
-        z-index: 6
-        background: linear-gradient(180deg, #4D57FF 0%, rgb(77, 87, 255) 46.88%, rgb(77, 87, 255) 100%)
-        overflow: hidden
+        +mobile-log-menu
 
     .login-title
         font-size: 20px
@@ -447,40 +458,17 @@
         text-decoration: underline
 
     .forgot-pass
-        display: none
-        position: absolute
-        top: 0
-        left: 0
-        height: 100%
-        width: 100%
+        +mobile-log-menu
         padding-top: 20px
-        z-index: 6
-        background: linear-gradient(180deg, #4D57FF 0%, rgb(77, 87, 255) 46.88%, rgb(77, 87, 255) 100%)
-        overflow: hidden
 
     .logErr, .regErr, .forgotErr
         +mobileErr
 
     .register
-        display: none
-        position: absolute
-        top: 0
-        left: 0
-        height: 100%
-        width: 100%
-        z-index: 6
-        background: linear-gradient(180deg, #4D57FF 0%, rgb(77, 87, 255) 46.88%, rgb(77, 87, 255) 100%)
-        overflow: hidden
+        +mobile-log-menu
 
     .login-first
-        display: none
-        position: absolute
-        top: 0
-        left: 0
-        height: 100%
-        width: 100%
-        z-index: 6
-        background: linear-gradient(180deg, #4D57FF 0%, rgb(77, 87, 255) 46.88%, rgb(77, 87, 255) 100%)
+        +mobile-log-menu
 
     .register-hint
         color: white
@@ -505,4 +493,8 @@
         +err
         position: absolute
         margin-left: 40%
-        transform: translateY(-150%)
+        transform: translateY(-200%)
+        padding-right: 5px
+
+    .log:nth-of-type(1)
+        display: none

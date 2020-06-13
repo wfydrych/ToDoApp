@@ -1,5 +1,4 @@
 {
-  "homepage": "https://wfydrych.github.io/ToDoApp/",
   "name": "todo",
   "version": "0.1.0",
   "private": true,
@@ -15,11 +14,12 @@
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0",
     "sass": "^1.26.3",
-    "universal-cookie": "^4.0.3"
+    "universal-cookie": "^4.0.3",
+    "mongodb": "^3.0.10",
+    "nodemailer" : "^0.4.0"
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -39,6 +39,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "194.230.159.172:5000/"
+  }
 }
