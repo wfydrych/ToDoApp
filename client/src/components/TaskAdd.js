@@ -324,13 +324,20 @@ class TaskAdd extends Component {
         if (cookies.get('login')) return 'Hey ' + cookies.get('login') + '!'
         else return 'Hey!'
     }
+
+    signBtn = () => {
+        const x = window.matchMedia('(max-width: 1023px)')
+        if (x.matches) return ''
+        else if (cookies.get('login')) return ''
+        else return <div className="log" onClick={this.handleRegisterBtn}>Sign up</div>
+    }
     
     render () {
     return (
         <Fragment>
             <div className='login-bar'>
                 <img className='login-img' src={login} alt='login' />
-                <div className='log' onClick={this.handleRegisterBtn}>Sign up</div>
+                {this.signBtn()}
                 <div className='log' onClick={this.handleLoginBtn}>{this.handleBtn()}</div>
             </div>
             <div className='taskAddPanel'>
@@ -354,8 +361,8 @@ class TaskAdd extends Component {
                     <input className='login-input' value={this.state.email} onChange={this.handleEmailChange} placeholder='email' type='text' />
                     <input className='login-input' value={this.state.pass} onChange={this.handlePassChange} placeholder='password' type='password' />
                     <button className='login-button' onClick={this.handleLogin}>Login</button>
-                    <span className='login-create'>Don’t have an account? <br/><strong onClick={this.handleRegisterBtn}>Create Account</strong></span>
                     <span className='login-create' onClick={this.handleForgotBtn}><strong>Forgot password?</strong><br/></span>
+                    <span className='login-create'>Don’t have an account? <br/><strong onClick={this.handleRegisterBtn}>Create Account</strong></span>
                     <span className='logErr'></span>
                     <span className='login-dot'></span>
                 </div>

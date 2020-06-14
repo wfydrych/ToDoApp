@@ -26,7 +26,8 @@ class TaskList extends Component {
         let tasks = cookies.get('tasks')
         tasks.map(task => {
             if (task.title === this.state.task) {
-                task.done = true
+                if (task.done === true) task.done = false
+                else task.done = true
                 cookies.set('tasks', tasks)
                 this.updateDatabase(tasks)
             }
@@ -44,9 +45,12 @@ class TaskList extends Component {
         window.location.reload()
     }
     
-    choosePrior = prior => {
-        if (prior === 1) return 'priorityCircleGrey'
-        else if (prior === 2) return 'priorityCircleBlue'
+    choosePrior = task => {
+        if ((task.priority === 1) && (task.done === true)) return 'priorityCircleGreyDone'
+        else if ((task.priority === 1) && (task.done === false)) return 'priorityCircleGrey'
+        else if ((task.priority === 2) && (task.done === true)) return 'priorityCircleBlueDone'
+        else if ((task.priority === 2) && (task.done === false)) return 'priorityCircleBlue'
+        else if ((task.priority === 3) && (task.done === true)) return 'priorityCircleRedDone'
         else return 'priorityCircleRed'
     }
     
@@ -130,7 +134,7 @@ class TaskList extends Component {
             tasksToDo = tasksToDo.map(task => 
                 <Fragment key={task.title}>
                     <div className='taskListToDo'>
-                        <span className={this.choosePrior(task.priority)}></span>
+                        <span className={this.choosePrior(task)}></span>
                         <span onClick={this.handleTask.bind(this, task.title)} className='taskName'>{task.title} </span><span className='taskDate'>{this.createDate(task.date)}</span>
                     </div>
                 </Fragment>
@@ -139,7 +143,7 @@ class TaskList extends Component {
             tasksDone = tasksDone.map(task => 
                 <Fragment key={task.title}>
                     <div className='taskListDone'>
-                        <span className={this.choosePrior(task.priority)}></span>
+                        <span className={this.choosePrior(task)}></span>
                         <span onClick={this.handleTask.bind(this, task.title)} className='taskName'>{task.title} </span><span className='taskDate'>{this.createDate(task.date)}</span>
                     </div>
                 </Fragment>

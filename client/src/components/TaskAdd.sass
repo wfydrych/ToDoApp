@@ -78,6 +78,21 @@
 .priorityCircleRed
     +circle
     border: 2px solid #FF5E5A
+
+.priorityCircleGreyDone
+    +circle
+    border: 2px solid #8D8D8D
+    background-color: #8D8D8D
+
+.priorityCircleBlueDone
+    +circle
+    border: 2px solid #fca503
+    background-color: #fca503
+
+.priorityCircleRedDone
+    +circle
+    border: 2px solid #FF5E5A
+    background-color: #FF5E5A
     
 @media (min-width: 1024px)
     .startpage-mobile
@@ -191,10 +206,12 @@
         font-size: 20px
         border-radius: 15px
         cursor: pointer
+        border: none
 
     .login-create
         display: block
-        margin-top: 25px
+        margin-top: 5px
+        margin-bottom: 15px
 
     .login-create strong
         cursor: pointer
@@ -430,6 +447,7 @@
         font-size: 20px
         border-radius: 15px
         cursor: pointer
+        border: none
 
     .login input, .register input, .login-first input, .forgot-pass input
         width: 80%
@@ -495,6 +513,3 @@
         margin-left: 40%
         transform: translateY(-200%)
         padding-right: 5px
-
-    .log:nth-of-type(1)
-        display: none
