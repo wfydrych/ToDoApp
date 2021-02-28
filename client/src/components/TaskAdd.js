@@ -8,8 +8,6 @@ const cookies = new Cookies()
 
 class TaskAdd extends Component {
 
-    
-
     getDate = () => {
         const time = new Date()
         let date = time.getFullYear() + '-'
@@ -348,9 +346,9 @@ class TaskAdd extends Component {
                     <input value={this.state.date} onChange={this.handleDateChange} placeholder='date' type='date' />
                     <div className='priorityChoose'>
                     <span>Priority:</span>
-                        <span className='priorityOption' onClick={this.handlePriorityChange.bind(this, 1)}><span className='priorityCircleGrey'></span>Low</span>
-                        <span className='priorityOption' onClick={this.handlePriorityChange.bind(this, 2)}><span className='priorityCircleBlue'></span>Medium</span>
-                        <span className='priorityOption' onClick={this.handlePriorityChange.bind(this, 3)}><span className='priorityCircleRed'></span>High</span>
+                        <span className='priorityChoose__option' onClick={this.handlePriorityChange.bind(this, 1)}><span className='priorityCircleGrey'></span>Low</span>
+                        <span className='priorityChoose__option' onClick={this.handlePriorityChange.bind(this, 2)}><span className='priorityCircleBlue'></span>Medium</span>
+                        <span className='priorityChoose__option' onClick={this.handlePriorityChange.bind(this, 3)}><span className='priorityCircleRed'></span>High</span>
                     </div>
                     <img className='addTask' onClick={this.handleSubmit} src={add} alt='add'/>
                     <span className='addErr'></span>

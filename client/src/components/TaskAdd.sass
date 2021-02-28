@@ -48,8 +48,8 @@
     margin-left: 5px
     color: #D3D3D3
 
-.log:nth-of-type(1)
-    margin: 0px 10px
+    &:nth-of-type(1)
+        margin: 0px 10px
 
 .login-img
     display: block
@@ -61,11 +61,11 @@
     margin-top: 20px
     width: 40%
 
-.priorityOption
-    display: block
-    font-size: 15px
-    margin-top: 10px
-    cursor: pointer
+    &__option
+        display: block
+        font-size: 15px
+        margin-top: 10px
+        cursor: pointer
 
 .priorityCircleGrey
     +circle
@@ -146,18 +146,18 @@
         background-color: rgba(0,0,0,0)
         color: rgba(255,255,255,0.6)
 
-    input::placeholder
-        color: rgba(255,255,255,0.6)
+        &:focus
+            outline: none
+            border-bottom: 1px solid black
+
+        &::placeholder
+            color: rgba(255,255,255,0.6)
 
     .login input, .register input, .login-first input, .forgot-pass input
         color: black
 
-    .login input::placeholder, .register input::placeholder, .login-first input::placeholder, .forgot-pass input::placeholder
-        color: rgb(50,50,50)
-
-    input:focus
-        outline: none
-        border-bottom: 1px solid black
+        &::placeholder
+            color: rgb(50,50,50)
 
     input[type="date"]
         font-family: 'Montserrat', sans-serif
@@ -353,7 +353,7 @@
         box-sizing: border-box
         width: 80vw
         min-height: 50vh
-        bottom: 10vh
+        bottom: 15vh
         left: 10vw
         background-color: #F4F4F4
         border-radius: 20px
@@ -364,7 +364,7 @@
     .newTaskHeader
         position: fixed
         box-sizing: border-box
-        bottom: 20px
+        bottom: calc(5vh + 20px)
         width: 80vw
         margin-left: 10vw
         text-align: center
@@ -384,13 +384,13 @@
         background-color: rgba(0,0,0,0)
         color: #A5A5A5
 
-    .taskAddPanel input:focus
-        outline: none
-        border-bottom: 1px solid black
-        color: black
+        &:focus
+            outline: none
+            border-bottom: 1px solid black
+            color: black
 
-    .taskAddPanel input::placeholder
-        color: grey
+        &::placeholder
+            color: grey
 
     .addTask
         display: inline-block

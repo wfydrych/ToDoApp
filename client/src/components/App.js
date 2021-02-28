@@ -1,18 +1,18 @@
-import React, {Component} from 'react'
+import React, {Fragment} from 'react'
 import './App.sass'
 import TaskAdd from './TaskAdd'
 import TaskList from './TaskList'
+import Footer from './Footer'
 
-class App extends Component {
-  state = {}
+export default function App() {
   
-  render() {
   return (
-    <div className='body'>
-      <TaskAdd></TaskAdd>
-      <TaskList></TaskList>
-    </div>
-  )}
+    <Fragment>
+      <div className='container'>
+        <TaskAdd />
+        <TaskList />
+        <Footer />
+      </div>
+    </Fragment>
+  )
 }
-
-export default App;

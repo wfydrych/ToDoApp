@@ -113,7 +113,7 @@ class TaskList extends Component {
 
     createTaskList = () => {
         let tasks = cookies.get('tasks') || []
-        if (tasks.length === 0) return <Fragment><img src={notasks} alt='no-tasks' className='noTasks' /> <span class='noTasksText'>No tasks added yet</span></Fragment>
+        if (tasks.length === 0) return <Fragment><img src={notasks} alt='no-tasks' className='noTasks' /> <span class='noTasks__txt'>No tasks added yet</span></Fragment>
     
         else 
         {
@@ -164,9 +164,9 @@ class TaskList extends Component {
                     <div className='tasksListMobile'>{this.createTaskList()}</div>
                 </div>
                 <div className='taskMenu'>
-                    <div className='taskOpt' onClick={this.taskDone}>Done</div>
-                    <div className='taskOpt' onClick={this.taskDelete}>Delete</div>
-                    <div className='taskOpt' onClick={this.taskClose}>Cancel </div>
+                    <div className='taskMenu__option' onClick={this.taskDone}>Done</div>
+                    <div className='taskMenu__option' onClick={this.taskDelete}>Delete</div>
+                    <div className='taskMenu__option' onClick={this.taskClose}>Cancel </div>
                 </div>
             </Fragment>
         )
