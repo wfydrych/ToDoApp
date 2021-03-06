@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 const path = require('path')
 const nodemailer = require('nodemailer')
+const passwordHash = require('password-hash')
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -38,7 +39,8 @@ app.post('/register', (req, res) => {
             client.close()
           }
           else {
-              usersData.insertOne({email: req.body.email, login: req.body.login, password: req.body.pass, tasks: []}) 
+              const hashedPassword = passwordHash.generate(req.body.pass)
+              usersData.insertOne({email: req.body.email, login: req.body.login, password: hashedPassword, tasks: []}) 
               .then(result => {
                 res.send('Account created!')
                 client.close()
@@ -65,7 +67,10 @@ app.post('/login', (req, res) => {
 
           user = req.body.email
 
-          usersData.find({email: user, password: req.body.pass}).toArray((err, data) => {
+          const hashedPassword = passwordHash.generate(req.body.pass)
+          // passwordHash.verify('password123', hashedPassword))
+
+          usersData.find({email: user, password: hashedPassword}).toArray((err, data) => {
             if (err) {
               res.send('User not found!')
               client.close()
