@@ -204,8 +204,8 @@ class TaskAdd extends Component {
             errFField.innerText = 'Incorrect email!'
         }
     
-        // else if (!pass.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/)) {
-            else if (!true) {
+        else if (!pass.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/)) {
+            // else if (!true) {
             errField.innerText = 'Incorrect password'
             errFField.innerText = 'Incorrect password'
         }

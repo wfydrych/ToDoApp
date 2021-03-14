@@ -79,7 +79,13 @@ app.post('/login', (req, res) => {
               res.send('Incorrect data!')
             }
             else {
-              res.send({info: 'Logged successfully!', user: user, tasks: data[0].tasks, login: data[0].login})
+              const answer = {
+                info: 'Logged successfully!', 
+                user: user, 
+                tasks: data[0].tasks, 
+                login: data[0].login
+              }
+              res.json(answer)
               }
             })
         }
