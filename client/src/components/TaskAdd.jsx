@@ -3,6 +3,8 @@ import Cookies from 'universal-cookie'
 import login from './img/log.png'
 import add from './img/add.png'
 import './TaskAdd.sass'
+import StartMobile from './StartMobile'
+import ForgotPass from './ForgotPass'
 
 const cookies = new Cookies()
 
@@ -156,7 +158,7 @@ class TaskAdd extends Component {
 
         const txt = document.querySelector('.addErr')
         txt.innerHTML = ''
-        if (data.title < 3) txt.innerHTML = 'Task must have at least 3 letters!'
+        if (data.title < 3) txt.innerHTML = 'Title must have at least 3 letters!'
 
         else {
             const t1 = new Date().getTime()
@@ -169,7 +171,7 @@ class TaskAdd extends Component {
                 let taskExist = false
                 tasks.map(task => {
                     if (task.title === data.title) {
-                        txt.innerHTML = 'Task with such name already exists!'
+                        txt.innerHTML = 'Task with such title already exists!'
                         taskExist = true
                         }   
                     })
@@ -205,7 +207,6 @@ class TaskAdd extends Component {
         }
     
         else if (!pass.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/)) {
-            // else if (!true) {
             errField.innerText = 'Incorrect password'
             errFField.innerText = 'Incorrect password'
         }
@@ -214,27 +215,36 @@ class TaskAdd extends Component {
             errField.innerText = ''
             errFField.innerText = ''
 
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, pass }),
-            })
-    
-            let answer = await response.text()
-            answer = JSON.parse(answer)
-            errField.innerText = answer.info
-            cookies.set('login', answer.login)
-            cookies.set('user', answer.user)
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, pass }),
+                })
+                let answer = await response.text()
+                answer = JSON.parse(answer)
 
-            this.setState({
-                email: '',
-                pass: '',
-            })
-            
-            if (answer.tasks) cookies.set('tasks', answer.tasks)
-            window.location.reload(false)
+                if (answer.tasks) {
+                    errField.innerText = answer.info
+                    cookies.set('login', answer.login)
+                    cookies.set('user', answer.user)
+
+                    this.setState({
+                        email: '',
+                        pass: '',
+                    })
+
+                    cookies.set('tasks', answer.tasks)
+                    window.location.reload(false)
+
+                } else {
+                    errField.innerText = answer.info
+                }
+              } catch (error) {
+                console.log(error);
+              }
         }
     }
 
@@ -278,26 +288,6 @@ class TaskAdd extends Component {
             document.querySelector('.login-first').style.display = 'block'
         }
     }   
-
-    handleSendForgot = () => {
-        const err = document.querySelector('.forgotErr')
-        const email = this.state.email
-        if (!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) err.innerText = 'Incorrect email!'
-        else {
-            this.setState({
-                email: ''
-            })
-            err.innerText = 'Password sent!'
-
-            const response = fetch('/forgot', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }),
-            })
-        }
-    }
 
     addTaskMobileForm = () => {
         const x = window.matchMedia('(max-width: 1023px)')
@@ -390,31 +380,9 @@ class TaskAdd extends Component {
                     <button className='login-button' onClick={this.handleLogin}>Login</button>
                     <span className='firstLogErr'></span>
                 </div>
-                <div className='forgot-pass'>
-                    <span className='login-title'>Forgot password?</span>
-                    <input className='login-input' value={this.state.email} onChange={this.handleEmailChange} placeholder='email' type='text' />
-                    <button className='login-button' onClick={this.handleSendForgot}>Send</button>
-                    <span className='forgotErr'></span>
-                </div>
+                <ForgotPass />
             </div>
-            <div className='startpage-mobile'>
-                <div className='bgc-dots'>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-                <div className='login-bar'>
-                    <img className='login-img' src={login} alt='login' />
-                    <div className='log'>To<span>Do</span>App</div>
-                </div>
-                <span className='login-title'>Welcome!</span>
-                <span className='login-subtitle'>Take control over your tasks.</span>
-                <button className='login-button' onClick={this.handleTryBtn}>Try without account</button>
-                <button className='login-button' onClick={this.handleLoginBtn}>Log in</button>
-                <button className='login-button' onClick={this.handleRegisterBtn}>Sign in</button>
-            </div>
+            <StartMobile try={this.handleTryBtn} login={this.handleLoginBtn} register={this.handleRegisterBtn}/>
         </Fragment>
     )}
 }

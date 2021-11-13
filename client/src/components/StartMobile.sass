@@ -1,0 +1,98 @@
+@media (min-width: 1024px)
+    .startpage-mobile
+        display: none
+
+@media (max-width: 1023px)
+    .startpage-mobile
+        display: block
+        position: absolute
+        top: 0
+        left: 0
+        height: 100%
+        width: 100%
+        z-index: 10
+        background: linear-gradient(180deg, #4D57FF 0%, rgb(77, 87, 255) 46.88%, rgb(77, 87, 255) 100%)
+        overflow: hidden
+
+    .startpage-mobile .login-bar
+        cursor: default
+        right: 10px
+        top: 10px
+
+    .startpage-mobile .log
+        color: #4D57FF
+        font-weight: 600
+
+    .startpage-mobile .log span
+        color: rgb(246,71,69)
+
+    .startpage-mobile .login-button
+        margin-top: 20px
+        z-index: 12
+        position: relative
+
+    .startpage-mobile .login-title
+        margin-top: 15vh
+
+    .startpage-mobile .login-subtitle
+        padding-top: 5px
+        margin-bottom: 10vh
+
+    .bgc-dots div:nth-child(1)
+        position: absolute
+        display: block
+        height: 35vh
+        width: 35vh
+        background-color: white
+        border-radius: 50%
+        top: 0
+        right: 0
+        transform: translate(30%, -45%)
+
+    .bgc-dots div:nth-child(2)
+        position: absolute
+        display: block
+        height: 15vh
+        width: 15vh
+        background-color: #FF5E5A
+        opacity: 0.75
+        border-radius: 50%
+        top: 45vh
+        left: 0
+        transform: translateX(-30%)
+
+    .bgc-dots div:nth-child(3)
+        position: absolute
+        display: block
+        height: 25vh
+        width: 25vh
+        background-color: #FF5E5A
+        opacity: 0.75
+        border-radius: 50%
+        top: 0
+        left: 0
+        transform: translate(-60%, -30%)
+
+    .bgc-dots div:nth-child(4)
+        position: absolute
+        display: block
+        height: 20vh
+        width: 20vh
+        background-color: #777FFF
+        opacity: 0.9
+        border-radius: 50%
+        top: 20vh
+        right: 0
+        transform: translate(30%, 30%)
+
+    .bgc-dots div:nth-child(5)
+        position: absolute
+        display: block
+        height: 50vh
+        width: 50vh
+        background-color: #FF5E5A
+        opacity: 0.7
+        border-radius: 50%
+        bottom: 0
+        right: 0
+        transform: translate(30%, 30%)

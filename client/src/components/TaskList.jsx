@@ -1,10 +1,38 @@
 import React, {Component, Fragment} from 'react'
-import {TweenMax, TimelineMax, Linear} from 'gsap'
+import {TimelineMax} from 'gsap'
 import Cookies from 'universal-cookie'
 import './TaskList.sass'
 import logo from './img/logo.png'
 
 const cookies = new Cookies()
+
+const animation = () => {
+    let tasks = cookies.get('tasks') || []
+    if (tasks.length === 0) {
+        const lefteye = document.querySelector('#lefteye')
+        const righteye = document.querySelector('#righteye')
+        const tail = document.querySelector('#tail')
+
+        let t1 = new TimelineMax({
+            repeat: -1,
+            repeatDelay: 3,
+        })
+
+        t1
+            .add('start')
+            .to(lefteye, .1, {opacity: 0})
+            .to(righteye, .1, {opacity: 0}, 'start')
+            .add('blink')
+            .to(lefteye, .1, {opacity: 1})
+            .to(righteye, .1, {opacity: 1}, 'blink')
+            .set(tail, {transformOrigin: '50% 100%'})
+            .to(tail, .5, {rotation: -7})
+            .to(tail, .5, {rotation: 14})
+            .to(tail, .5, {rotation: 0})
+
+        return null
+    }
+}
 
 class TaskList extends Component {
     state = {
@@ -185,44 +213,16 @@ class TaskList extends Component {
         }
     }
 
-    animation = () => {
-        let tasks = cookies.get('tasks') || []
-        if (tasks.length === 0) {
-            const lefteye = document.querySelector('#lefteye')
-            const righteye = document.querySelector('#righteye')
-            const tail = document.querySelector('#tail')
-
-            let t1 = new TimelineMax({
-                repeat: -1,
-                repeatDelay: 3,
-            })
-
-            t1
-                .add('start')
-                .to(lefteye, .1, {opacity: 0})
-                .to(righteye, .1, {opacity: 0}, 'start')
-                .add('blink')
-                .to(lefteye, .1, {opacity: 1})
-                .to(righteye, .1, {opacity: 1}, 'blink')
-                .set(tail, {transformOrigin: '50% 100%'})
-                .to(tail, .5, {rotation: -7})
-                .to(tail, .5, {rotation: 14})
-                .to(tail, .5, {rotation: 0})
-
-            return null
-        }
-    }
-
     componentDidMount() {
-        this.animation()
+        animation()
     }
 
     render() {
         return (
-            <Fragment>
+            <>
                 <div className='taskListPanel'>
                     <img src={logo} alt='logo-img' className='logoImg' />
-                    <span className='taskListHeader'>These are your current tasks: </span>
+                    <span className='taskListHeader'>Here are your current tasks: </span>
                     <div className='tasksListMobile'>{this.createTaskList()}</div>
                 </div>
                 <div className='taskMenu'>
@@ -230,7 +230,7 @@ class TaskList extends Component {
                     <div className='taskMenu__option' onClick={this.taskDelete}>Delete</div>
                     <div className='taskMenu__option' onClick={this.taskClose}>Cancel </div>
                 </div>
-            </Fragment>
+            </>
         )
     }
 }
