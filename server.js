@@ -12,10 +12,12 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 let user = ''
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
 
-app.use(express.static(path.join(__dirname, 'client/build')))
+app.use(express.static(path.join(__dirname, 'build')))
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
@@ -24,9 +26,11 @@ app.get('/*', (req, res) => {
 app.post('/register', (req, res) => {
   client.connect(err => {
       if (err) {
+        console.log(err)
         res.send('Error during connecting to database :(')
         client.close()
       } else {
+        console.log('connecting')
         const db = client.db('ToDoApp')
         const usersData = db.collection('UsersData')
 
@@ -59,33 +63,50 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     client.connect(err => {
         if (err) {
-            res.send('Error during connecting to database :(')
-            client.close()
+          const answer = {
+            info: 'Error during connecting to database :('
+          }
+          res.send(JSON.stringify(answer))
+          client.close()
         } else {
           const db = client.db('ToDoApp')
           const usersData = db.collection('UsersData')
+          console.log(usersData)
 
           user = req.body.email
+          pass = req.body.pass
 
-          const hashedPassword = passwordHash.generate(req.body.pass)
-          // passwordHash.verify('password123', hashedPassword))
-
-          usersData.find({email: user, password: hashedPassword}).toArray((err, data) => {
+            usersData.find({email: user}).toArray((err, data) => {
             if (err) {
-              res.send('User not found!')
+              const answer = {
+                info: 'Incorrect data!'
+              }
+              res.send(JSON.stringify(answer))
               client.close()
             }
             else if (data.length === 0) {
-              res.send('Incorrect data!')
+              const answer = {
+                info: 'User not found!'
+              }
+              res.send(JSON.stringify(answer))
             }
             else {
-              const answer = {
-                info: 'Logged successfully!', 
-                user: user, 
-                tasks: data[0].tasks, 
-                login: data[0].login
-              }
-              res.json(answer)
+              const passCorrect = passwordHash.verify(pass, data[0].password)
+              
+              if (passCorrect) {
+                const answer = {
+                  info: 'Logged successfully!', 
+                  user: user, 
+                  tasks: data[0].tasks, 
+                  login: data[0].login
+                }
+                res.send(JSON.stringify(answer))
+                } else {
+                  const answer = {
+                    info: 'Incorrect password!'
+                  }
+                  res.send(JSON.stringify(answer))
+                }
               }
             })
         }
