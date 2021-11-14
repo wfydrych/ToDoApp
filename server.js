@@ -1,5 +1,4 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 const path = require('path')
 const nodemailer = require('nodemailer')
@@ -7,10 +6,8 @@ const passwordHash = require('password-hash')
 
 const app = express()
 const port = process.env.PORT || 5000
-const uri = process.env.MONGODB_URI 
+const uri = process.env.MONGODB_URI
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-
-let user = ''
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -26,11 +23,9 @@ app.get('/*', (req, res) => {
 app.post('/register', (req, res) => {
   client.connect(err => {
       if (err) {
-        console.log(err)
         res.send('Error during connecting to database :(')
         client.close()
       } else {
-        console.log('connecting')
         const db = client.db('ToDoApp')
         const usersData = db.collection('UsersData')
 
@@ -71,10 +66,9 @@ app.post('/login', (req, res) => {
         } else {
           const db = client.db('ToDoApp')
           const usersData = db.collection('UsersData')
-          console.log(usersData)
 
-          user = req.body.email
-          pass = req.body.pass
+          const user = req.body.email
+          const pass = req.body.pass
 
             usersData.find({email: user}).toArray((err, data) => {
             if (err) {
@@ -114,7 +108,7 @@ app.post('/login', (req, res) => {
   })
 
   app.post('/forgot', (req, res) => {
-    user = req.body.email
+    const user = req.body.email
 
     client.connect(err => {
       if (err) {
@@ -149,9 +143,9 @@ app.post('/login', (req, res) => {
           }
             transport.sendMail(message, function(err, info) {
               if (err) {
-                console.log(err)
+                console.log('Error')
               } else {
-                console.log(info);
+                console.log('Done');
               }
             })
           }
