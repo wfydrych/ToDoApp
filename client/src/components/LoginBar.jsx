@@ -6,8 +6,6 @@ import './TaskAdd.sass'
 const cookies = new Cookies()
 
 const signBtn = props => {
-  const x = window.matchMedia('(max-width: 1023px)')
-  // if (x.matches) return ''
   if (cookies.get('login')) return ''
   else return <div className="log" onClick={ () => props.setRegisterScreen()}>Sign up</div>
 }

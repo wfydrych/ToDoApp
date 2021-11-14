@@ -177,15 +177,15 @@ class TaskList extends Component {
         {
             let tasksToDo = tasks.filter(task => !task.done)
             tasksToDo = tasksToDo.sort(function(a,b) {
-                let t1 = new Date(a.date).getTime()
-                let t2 = new Date(b.date).getTime()
+                const t1 = new Date(a.date).getTime()
+                const t2 = new Date(b.date).getTime()
                 return t1-t2
             })
 
             let tasksDone = tasks.filter(task => task.done)
             tasksDone = tasksDone.sort(function(a,b) {
-                let t1 = new Date(a.date).getTime()
-                let t2 = new Date(b.date).getTime()
+                const t1 = new Date(a.date).getTime()
+                const t2 = new Date(b.date).getTime()
                 return t1-t2
             })
     

@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import Cookies from 'universal-cookie'
 import './TaskAdd.sass'
-
-const cookies = new Cookies()
 
 const handleRegister = async (email, login, pass, confPass) => {
   const errField = document.querySelector('.regErr')
