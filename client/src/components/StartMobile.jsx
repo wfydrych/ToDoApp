@@ -18,9 +18,9 @@ const StartMobile = props => {
       </div>
       <span className='login-title'>Welcome!</span>
       <span className='login-subtitle'>Take control over your tasks.</span>
-      <button className='login-button' onClick={props.try}>Try without account</button>
-      <button className='login-button' onClick={props.login}>Log in</button>
-      <button className='login-button' onClick={props.register}>Sign in</button>
+      <button className='login-button' onClick={ () => props.setTaskScreen()}>Try without account</button>
+      <button className='login-button' onClick={ () => props.setLoginScreen()}>Log in</button>
+      <button className='login-button' onClick={ () => props.setRegisterScreen()}>Sign in</button>
   </div>
   )
 }

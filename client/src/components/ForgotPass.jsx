@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './ForgotPass.sass'
+import './TaskAdd.sass'
 
 const handleSendForgot = props => {
   const err = document.querySelector('.forgotErr')
@@ -20,7 +20,7 @@ const handleSendForgot = props => {
   }
 }
 
-const ForgotPass = () => {
+const ForgotPass = props => {
   const [email, setEmail] = useState('')
 
   return (
@@ -28,6 +28,7 @@ const ForgotPass = () => {
         <span className='login-title'>Forgot password?</span>
         <input className='login-input' value={email} onChange={e => setEmail(e.target.value)} placeholder='email' type='text' />
         <button className='login-button' onClick={ () => handleSendForgot(email)}>Send</button>
+        <span className='login-create' onClick={ () => props.setTaskScreen()}><strong>Back to ToDo</strong></span>
         <span className='forgotErr'></span>
     </div>
   )

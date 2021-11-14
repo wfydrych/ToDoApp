@@ -24,15 +24,31 @@
     transform: translateY(1px)
 
 =mobile-log-menu
-    display: none
     position: absolute
     top: 0
     left: 0
-    height: 100%
+    min-height: 100%
     width: 100%
     z-index: 6
     background: linear-gradient(180deg, #4D57FF 0%, rgb(77, 87, 255) 46.88%, rgb(77, 87, 255) 100%)
     overflow: hidden
+
+input
+    display: block
+    width: 100%
+    padding: 5px
+    font-size: 1em
+    border: none
+    border-bottom: 1px solid white
+    background-color: rgba(0,0,0,0)
+    color: rgba(255,255,255,0.6)
+
+    &:focus
+        outline: none
+        border-bottom: 1px solid black
+
+    &::placeholder
+        color: rgba(255,255,255,0.6)
     
 .login-bar
     position: absolute
@@ -101,14 +117,15 @@
     =login-div
         position: absolute
         box-sizing: border-box
-        padding: 10%
-        height: 80%
-        width: 80%
-        top: 10%
-        left: 10%
+        padding: 5%
+        height: 80vh
+        width: 35vw
+        top: 10vh
+        left: 5vw
         background-color: #fff
         border-radius: 20px
         color: black
+        z-index: 5
 
     .log
         color: #666666
@@ -136,23 +153,6 @@
         display: block
         padding: 20px 0
 
-    input
-        display: block
-        width: 100%
-        padding: 5px
-        font-size: 1em
-        border: none
-        border-bottom: 1px solid white
-        background-color: rgba(0,0,0,0)
-        color: rgba(255,255,255,0.6)
-
-        &:focus
-            outline: none
-            border-bottom: 1px solid black
-
-        &::placeholder
-            color: rgba(255,255,255,0.6)
-
     .login input, .register input, .login-first input, .forgot-pass input
         color: black
 
@@ -177,9 +177,9 @@
         transform: translateY(-120%)
         background-color: #fff
         cursor: pointer
+        z-index: 3
 
     .login
-        display: none
         +login-div
 
     .login-title
@@ -217,19 +217,13 @@
         cursor: pointer
         color: rgb(53,42,241)
 
-    .login-dot
-        display: none
-
     .register
-        display: none
         +login-div
 
     .login-first
-        display: none
         +login-div
 
     .forgot-pass
-        display: none
         +login-div
 
     .login-first span:nth-child(2)
