@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Cookies from 'universal-cookie'
 import './App.sass'
+import Intro from './Intro'
 import TaskAdd from './TaskAdd'
 import TaskList from './TaskList'
 import LoginBar from './LoginBar'
@@ -15,23 +16,26 @@ const cookies = new Cookies()
 
 const startScreen = () => {
   const x = window.matchMedia('(max-width: 1023px)')
-  console.log(cookies.get('start'))
   if (x.matches) {
       if (cookies.get('start')) return 4
       else {
-        return 0
+        return 6
       }
   }
   else if (cookies.get('start')) return 4
   else {
-    cookies.set('start', true)
-    return 4
+    // cookies.set('start', true)
+    return 6
   }
 }
 
 const App = () => {
   const [screen, setScreen] = useState(startScreen)
   // 0 - StartMobile, 1 - Register, 2 - Login, 3 - LoginFirst, 4 - Task, 5 - ForgotPass
+
+  const setStartScreen = () => {
+    setScreen(0)
+  }
 
   const setRegisterScreen = () => {
     setScreen(1)
@@ -51,6 +55,7 @@ const App = () => {
 
   return (
     <div className='container'>
+      {screen === 6 && <Intro setStartScreen={setStartScreen} setTaskScreen={setTaskScreen} /> }
       { screen !== 0 && <LoginBar screen={screen} setTaskScreen={setTaskScreen} setLoginScreen={setLoginScreen} setRegisterScreen={setRegisterScreen}/> }
       { screen === 0 && <StartMobile setTaskScreen={setTaskScreen} setLoginScreen={setLoginScreen} setRegisterScreen={setRegisterScreen} /> }
       { screen === 1 && <Register setTaskScreen={setTaskScreen} /> }

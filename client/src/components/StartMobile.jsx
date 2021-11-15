@@ -3,6 +3,7 @@ import login from './img/log.png'
 import './StartMobile.sass'
 
 const StartMobile = props => {
+
   return (
     <div className='startpage-mobile'>
       <div className='bgc-dots'>
@@ -14,7 +15,7 @@ const StartMobile = props => {
       </div>
       <div className='login-bar'>
           <img className='login-img' src={login} alt='login' />
-          <div className='log'>To<span>Do</span>App</div>
+          <div className='log'>APP<span>riority</span></div>
       </div>
       <span className='login-title'>Welcome!</span>
       <span className='login-subtitle'>Take control over your tasks.</span>

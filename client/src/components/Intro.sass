@@ -1,0 +1,128 @@
+.main
+    display: block
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+    z-index: 20
+    background: linear-gradient(180deg, #4D57FF 0%, rgb(77, 87, 255) 46.88%, rgb(77, 87, 255) 100%)
+    overflow: hidden
+
+.bar
+	position: absolute
+	top: 22vh
+	left: 50vw
+	transform: translate(-50%, -50%)
+	display: flex
+
+	&__login-img
+		width: 50px
+		padding: 10px
+        
+	&__log
+		color: #fff
+        font-weight: 600
+		line-height: 70px
+		font-size: 30px
+
+		span
+        	color: #FF5E5A
+.info
+	position: absolute
+	top: 35vh
+	left: 10vw
+	width: 80vw
+	color: white
+	text-align: center
+
+	&__title
+		display: block
+		font-size: 30px
+		margin-bottom: 10px
+
+	&__description
+		display: block
+		line-height: 1.1em
+
+		&__namestart
+			color: #fff
+
+		&__nameend
+			color: #FF5E5A
+
+.startButton
+	position: absolute
+	top: 70vh
+	left: 50vw
+	height: 10vh
+	width: 50vw
+	transform: translateX(-50%)
+	background-color: #4d57ff
+	font-weight: 600
+	font-size: 25px
+	border-radius: 15px
+	cursor: pointer
+	border: 1px solid white
+	padding: 10px
+	color: white
+	box-shadow: 3px 3px 5px #888888
+
+.dots div:nth-child(1)
+    position: absolute
+    display: block
+    height: 30vh
+    width: 30vh
+    background-color: white
+    border-radius: 50%
+    top: 0
+    right: 0
+    transform: translate(30%, -45%)
+
+.dots div:nth-child(2)
+    position: absolute
+    display: block
+    height: 15vh
+    width: 15vh
+    background-color: #FF5E5A
+    opacity: 0.75
+    border-radius: 50%
+    top: 45vh
+    left: 0
+    transform: translateX(-30%)
+
+.dots div:nth-child(3)
+    position: absolute
+    display: block
+    height: 25vh
+    width: 25vh
+    background-color: #FF5E5A
+    opacity: 0.75
+    border-radius: 50%
+    top: 0
+    left: 0
+    transform: translate(-60%, -30%)
+
+.dots div:nth-child(4)
+    position: absolute
+    display: block
+    height: 20vh
+    width: 20vh
+    background-color: #777FFF
+    opacity: 0.9
+    border-radius: 50%
+    top: 20vh
+    right: 0
+    transform: translate(30%, 30%)
+
+.dots div:nth-child(5)
+    position: absolute
+    display: block
+    height: 50vh
+    width: 50vh
+    background-color: #FF5E5A
+    opacity: 0.7
+    border-radius: 50%
+    bottom: 0
+    right: 0
+    transform: translate(30%, 30%)

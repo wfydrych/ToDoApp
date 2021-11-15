@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react'
 import {TimelineMax} from 'gsap'
 import Cookies from 'universal-cookie'
 import './TaskList.sass'
+import './Fireworks.css'
 import logo from './img/logo.png'
 
 const cookies = new Cookies()
@@ -51,16 +52,23 @@ class TaskList extends Component {
       }
 
     taskDone = () => {
+        let done = false
         let tasks = cookies.get('tasks')
         tasks.map(task => {
             if (task.title === this.state.task) {
-                if (task.done === true) task.done = false
-                else task.done = true
+                task.done = !task.done
+                done = task.done
                 cookies.set('tasks', tasks)
                 this.updateDatabase(tasks)
             }
         })
-        window.location.reload()
+
+        if (done) {
+            this.taskClose()
+            document.querySelector('.pyro').style.display = 'block'
+            setTimeout(() => { window.location.reload() }, 2000)
+        }
+        else window.location.reload()
     }
     
     taskDelete = () => {
@@ -129,14 +137,16 @@ class TaskList extends Component {
     }
     
     handleTask = props => {
-        document.querySelector('.taskMenu').style.display = 'block'
+        if (props.done) document.querySelector('.taskDoneMenu').style.display = 'block'
+        else document.querySelector('.taskMenu').style.display = 'block'
         this.setState({
-            task: props
+            task: props.title
         })
     }
     
     taskClose = () => {
         document.querySelector('.taskMenu').style.display = 'none'
+        document.querySelector('.taskDoneMenu').style.display = 'none'
     }
 
     createTaskList = () => {
@@ -193,7 +203,7 @@ class TaskList extends Component {
                 <Fragment key={task.title}>
                     <div className='taskListToDo'>
                         <span className={this.choosePrior(task)}></span>
-                        <span onClick={this.handleTask.bind(this, task.title)} className='taskName'>{task.title} </span><span className='taskDate'>{this.createDate(task.date)}</span>
+                        <span onClick={this.handleTask.bind(this, task)} className='taskName'>{task.title} </span><span className='taskDate'>{this.createDate(task.date)}</span>
                     </div>
                 </Fragment>
             )
@@ -202,7 +212,7 @@ class TaskList extends Component {
                 <Fragment key={task.title}>
                     <div className='taskListDone'>
                         <span className={this.choosePrior(task)}></span>
-                        <span onClick={this.handleTask.bind(this, task.title)} className='taskName'>{task.title} </span><span className='taskDate'>{this.createDate(task.date)}</span>
+                        <span onClick={this.handleTask.bind(this, task)} className='taskName'>{task.title} </span><span className='taskDate'>{this.createDate(task.date)}</span>
                     </div>
                 </Fragment>
             )
@@ -215,6 +225,7 @@ class TaskList extends Component {
 
     componentDidMount() {
         animation()
+        document.querySelector('.pyro').style.display = 'none'
     }
 
     render() {
@@ -222,13 +233,22 @@ class TaskList extends Component {
             <>
                 <div className='taskListPanel'>
                     <img src={logo} alt='logo-img' className='logoImg' />
-                    <span className='taskListHeader'>Here are your current tasks: </span>
+                    <span className='taskListHeader'>Your current tasks: </span>
                     <div className='tasksListMobile'>{this.createTaskList()}</div>
                 </div>
                 <div className='taskMenu'>
                     <div className='taskMenu__option' onClick={this.taskDone}>Done</div>
                     <div className='taskMenu__option' onClick={this.taskDelete}>Delete</div>
                     <div className='taskMenu__option' onClick={this.taskClose}>Cancel </div>
+                </div>
+                <div className='taskDoneMenu'>
+                    <div className='taskMenu__option undo' onClick={this.taskDone}>Undo</div>
+                    <div className='taskMenu__option' onClick={this.taskDelete}>Delete</div>
+                    <div className='taskMenu__option' onClick={this.taskClose}>Cancel </div>
+                </div>
+                <div className="pyro">
+                    <div className="before"></div>
+                    <div className="after"></div>
                 </div>
             </>
         )
